@@ -27,3 +27,12 @@ $(BIN):
 clean:
 	$(RM) *.pdf
 	$(RM) -r $(BIN)
+
+# Handle vim 'write then move' strategy
+INOTIFYWAITEVENT ?= DELETE_SELF
+buildloop:
+	while true; do \
+		inotifywait -e $(INOTIFYWAITEVENT) $(DOCUMENT).tex ;\
+		make ;\
+	done \
+	#
